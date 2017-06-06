@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module moduleName="PPT_SPQ" beanName="PPT_SPQ" inherit="Basic" tableName="ppt_test" pseudoMult="Spot Quotes" pseudoSingle="Spot Quote">
+
+    <fields>
+        <field name="number"
+               label="Quote #"
+               type="int"
+               length="11"
+               defaultValue="0"
+               required="false"
+               massupdate="0"
+               reportable="true"
+        />
+        <field name="air_waybill"
+               label="Air Waybill"
+               type="long"
+               dbType="bigint"
+               defaultValue="0"
+               required="false"
+               massupdate="0"
+               reportable="true"
+        />
+        <field name="origin"
+               label="Origin"
+               type="enum"
+               options="ppt-airports-dom"
+               length="50"
+               required="true"
+               massupdate="0"
+               reportable="true"
+        />
+        <field name="issue"
+               label="Issue"
+               type="date"
+               required="true"
+               massupdate="0"
+               reportable="true"
+               displayDefault="now"
+        />
+        <field name="capri"
+               label="Capri"
+               type="bool"
+               defaultValue="1"
+               massupdate="0"
+               reportable="true"
+        />
+        <field name="account_id"
+               rname="id"
+               idName="account_id"
+               type="id"
+               dbType="id"
+               table="ppt_accounts"
+               module="PPT_Accounts"
+               nullable="false"
+               reportable="true"
+               massupdate="false"
+               inlineEdit="false"
+        />
+        <field name="account_name"
+               label="Agent Name"
+               type="relate"
+               length="255"
+               required="true"
+               massupdate="0"
+               rname="name"
+               idName="account_id"
+               source="non-db"
+               inlineEdit="true"
+               reportable="true"
+               table="ppt_accounts"
+               module="PPT_Accounts"
+               quicksearch="enabled"
+               studio="visible"
+               search="true"
+        />
+    </fields>
+
+    <indices>
+        <index name="idx_account" type="index">
+            <fields>
+                <field>account_id</field>
+            </fields>
+        </index>
+
+        <index name="idx_shipper" type="index">
+            <fields>
+                <field>shipper_id</field>
+            </fields>
+        </index>
+    </indices>
+
+    <relationships>
+        <relationship name="spq_accounts">
+            <lhs_module>PPT_Accounts</lhs_module>
+            <lhs_table>ppt_accounts</lhs_table>
+            <lhs_key>id</lhs_key>
+            <rhs_module>PPT_Contracts</rhs_module>
+            <rhs_table>ppt_contracts</rhs_table>
+            <rhs_key>account_id</rhs_key>
+            <relationship_type>one-to-many</relationship_type>
+        </relationship>
+        <relationship name="spq_shippers">
+            <lhs_module>PPT_Accounts</lhs_module>
+            <lhs_table>ppt_accounts</lhs_table>
+            <lhs_key>id</lhs_key>
+            <rhs_module>PPT_Contracts</rhs_module>
+            <rhs_table>ppt_contracts</rhs_table>
+            <rhs_key>shipper_id</rhs_key>
+            <relationship_type>one-to-many</relationship_type>
+        </relationship>
+    </relationships>
+
+    <editview>
+        <panel name="lbl_panel_main">
+            <items>
+                <panelItem>
+                    <elements>
+                        <panelItemElement empty="false" nameOnly="true" name="air_waybill" customCode="" label=""/>
+                        <panelItemElement empty="true"/>
+                    </elements>
+                </panelItem>
+                <panelItem>
+                    <elements>
+                        <panelItemElement empty="false" nameOnly="false" name="flags_group"
+                                          customCode='{include file="modules/PPT_SPQ/test.tpl"}'
+                                          label="LBL_FLAGS_GROUP"/>
+                        <panelItemElement empty="true"/>
+                    </elements>
+                </panelItem>
+            </items>
+        </panel>
+        <panel name="lbl_panel_other">
+            <items>
+                <panelItem>
+                    <elements>
+                        <panelItemElement name="issue" empty="false" nameOnly="true"/>
+                        <panelItemElement name="valid_from" empty="false" nameOnly="true"/>
+                    </elements>
+                </panelItem>
+            </items>
+        </panel>
+    </editview>
+    <detailview>
+        <panel name="lbl_panel_main">
+            <items>
+                <panelItem>
+                    <elements>
+                        <panelItemElement empty="false" nameOnly="true" name="air_waybill" customCode="" label=""/>
+                        <panelItemElement empty="true"/>
+                    </elements>
+                </panelItem>
+                <panelItem>
+                    <elements>
+                        <panelItemElement empty="false" nameOnly="false" name="flags_group"
+                                          customCode='{include file="modules/PPT_SPQ/test.tpl"}'
+                                          label="LBL_FLAGS_GROUP"/>
+                        <panelItemElement empty="true"/>
+                    </elements>
+                </panelItem>
+            </items>
+        </panel>
+    </detailview>
+</module>
