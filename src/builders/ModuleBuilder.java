@@ -24,6 +24,7 @@ public class ModuleBuilder {
 
         tasks.add(es.submit(new ModuleClassBuilder(moduleDescription, dirPath)));
         tasks.add(es.submit(new VardefBuilder(moduleDescription, dirPath)));
+        tasks.add(es.submit(new MenuBuilder(moduleDescription, dirPath)));
         tasks.add(es.submit(new EditDetailViewBuilder( new String[]{"EDIT", "DELETE"}, dirPath + "\\metadata", moduleDescription, true)));
         tasks.add(es.submit(new EditDetailViewBuilder( new String[]{"SAVE", "CANCEL"}, dirPath + "\\metadata", moduleDescription, false)));
 
